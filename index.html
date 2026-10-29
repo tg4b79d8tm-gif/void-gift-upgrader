@@ -73,9 +73,34 @@ h1{font-size:34px;letter-spacing:-.055em;line-height:1.05;margin:0;font-weight:7
 @keyframes pop{0%{transform:scale(.85);opacity:.2;filter:blur(3px)}100%{transform:scale(1);opacity:1;filter:blur(0)}}
 @media(max-width:360px){.app{padding:18px 12px}.gift{width:76px;height:76px}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+.app{padding-bottom:108px}
+.view[hidden]{display:none}
+.vtitle{margin:26px 0 6px;font-size:28px;letter-spacing:-.05em;font-weight:720;line-height:1.1}
+.nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(500px,100%);z-index:10;display:grid;grid-template-columns:1fr 84px 1fr;align-items:end;padding:8px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(9,10,13,.94);border-top:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.nb{background:none;border:0;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 0;cursor:pointer;font:inherit;font-size:9px;letter-spacing:.14em}
+.nb svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.nb.on{color:var(--text)}
+.nb.main{margin-top:-30px}
+.nb.main .orb{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;border:1px solid #5b5e66;background:radial-gradient(circle at 36% 30%,#2a2c33,#0b0c0f 72%);color:var(--muted);transition:.2s}
+.nb.main.on .orb{border-color:#e9eaed;color:var(--text);box-shadow:0 0 22px #ffffff22}
+.nb.main svg{width:34px;height:34px}
+.nb:focus-visible{outline:1px solid #e9eaed;outline-offset:3px;border-radius:10px}
+.tile.static{pointer-events:none;cursor:default}
+.profile{border:1px solid var(--line);border-radius:20px;padding:20px 16px;background:#0e0f12;text-align:center;margin-top:16px}
+.ava{width:84px;height:84px;border-radius:50%;margin:0 auto 12px;border:1px solid #5b5e66;overflow:hidden;display:grid;place-items:center;background:linear-gradient(145deg,#1c1e23,#0a0b0d);font-size:32px;font-weight:700}
+.ava img{width:100%;height:100%;object-fit:cover;display:block}
+.pname{font-size:20px;font-weight:700;letter-spacing:-.03em}
+.puser{font-size:12px;color:var(--muted);margin-top:3px}
+.lvl{display:flex;justify-content:space-between;align-items:end;margin:22px 0 10px;text-align:left}
+.lvl b{font-size:30px;letter-spacing:-.06em;font-weight:680}
+.xpnum{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.stat{border:1px solid var(--line);border-radius:13px;padding:12px 4px;background:#101115}
+.stat b{display:block;font-size:18px;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.stat span{font-size:9px;color:var(--muted);letter-spacing:.1em}
 </style></head><body><main class="app"><div class="stars"></div><div class="content">
 <header class="top"><div class="brand"><div class="logo">◉</div> VOID / UPGRADE</div><div class="balance"><span id="balance">★ 1000</span><small>TEST BALANCE</small></div></header>
-<div class="kicker">TELEGRAM GIFT LAB</div><h1>One gift.<br>One chance.</h1><p class="sub">Выбери подарок из инвентаря, цель из каталога и запусти апгрейд.</p>
+<div class="view" id="view-main"><div class="kicker">TELEGRAM GIFT LAB</div><h1>One gift.<br>One chance.</h1><p class="sub">Выбери подарок из инвентаря, цель из каталога и запусти апгрейд.</p>
 
 <section class="panel"><div class="panelhead"><span>UPGRADE ENGINE</span><span class="status" id="status">● READY</span></div>
 <canvas class="stage" id="stage" aria-label="Орбита"></canvas>
@@ -86,9 +111,7 @@ h1{font-size:34px;letter-spacing:-.055em;line-height:1.05;margin:0;font-weight:7
 <button class="action" id="upgrade" disabled><span class="key">SPACE</span><span id="buttonText">START UPGRADE</span></button>
 <div class="message" id="message" aria-live="polite">Выбери подарок в инвентаре и цель в каталоге</div></section>
 
-<section class="collection"><div class="panelhead"><span>COLLECTION BONUS</span><span class="status" id="cprog">0 / 6</span></div><div class="cbar" id="cbar"></div>
-<button class="cbtn" id="cclaim" disabled>Собери 6 разных подарков → +★ 500 (тест)</button>
-<div class="message" style="min-height:0;margin-top:9px;font-size:11px">В коллекцию идут стартовые подарки и успешные апгрейды. Покупки не засчитываются.</div></section>
+
 
 <div class="sectitle"><span>MY INVENTORY</span><span id="invCount">0</span></div><div class="grid" id="inv"></div>
 
@@ -97,9 +120,25 @@ h1{font-size:34px;letter-spacing:-.055em;line-height:1.05;margin:0;font-weight:7
 <div class="tabs" id="tabs"></div>
 <div class="detail" id="detail" hidden></div>
 <div class="grid" id="cat"></div>
+</div>
 
+<div class="view" id="view-col" hidden><div class="kicker">COLLECTION</div><div class="vtitle">Collection</div><p class="sub">Собери 6 разных подарков и получи бонус.</p>
+<section class="collection"><div class="panelhead"><span>COLLECTION BONUS</span><span class="status" id="cprog">0 / 6</span></div><div class="cbar" id="cbar"></div>
+<button class="cbtn" id="cclaim" disabled>Собери 6 разных подарков → +★ 500 (тест)</button>
+<div class="message" style="min-height:0;margin-top:9px;font-size:11px">В коллекцию идут стартовые подарки и успешные апгрейды. Покупки не засчитываются.</div></section>
+<div class="sectitle"><span>COLLECTED GIFTS</span><span id="colCount">0</span></div><div class="grid" id="colGrid"></div></div>
+<div class="view" id="view-prof" hidden><div class="kicker">PROFILE</div><div class="vtitle">Profile</div>
+<section class="profile"><div class="ava" id="ava"></div><div class="pname" id="pname">Guest</div><div class="puser" id="puser"></div>
+<div class="lvl"><span><span class="label">LEVEL</span><br><b id="lvlNum">1</b></span><span class="xpnum" id="xpNum">0 / 100 XP</span></div>
+<div class="track"><div class="fill" id="xpFill" style="width:0"></div></div>
+<div class="stats"><div class="stat"><b id="stUps">0</b><span>UPGRADES</span></div><div class="stat"><b id="stWins">0</b><span>SUCCESS</span></div><div class="stat"><b id="stInv">0</b><span>GIFTS</span></div></div>
+<div class="message" style="margin-top:14px;font-size:11px">+10 XP за каждый апгрейд, +15 XP за успешный.</div></section></div>
 <footer class="footer"><span>SIMULATED ITEMS · NO REAL TRADES</span><span>VOID © DEMO</span></footer>
-</div></main><script src="images.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js" defer></script><script>
+</div><nav class="nav" aria-label="Навигация">
+<button class="nb" data-v="col" aria-label="Коллекция"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.8"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.8"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.8"/></svg>COLLECTION</button>
+<button class="nb main on" data-v="main" aria-label="Апгрейдер"><span class="orb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5.6"/><ellipse cx="12" cy="12" rx="10.5" ry="3.6" transform="rotate(-24 12 12)"/></svg></span>UPGRADE</button>
+<button class="nb" data-v="prof" aria-label="Профиль"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.2" r="3.8"/><path d="M4.5 20.5c.6-4 3.6-6.2 7.5-6.2s6.9 2.2 7.5 6.2"/></svg>PROFILE</button></nav>
+</main><script src="https://telegram.org/js/telegram-web-app.js"></script><script src="images.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js" defer></script><script>
 (()=>{
 /* Каталог: реальные подарки Telegram. [файл, название, цена в ★, тираж, цена-демо?]
    Цена ★ = floor в TON × 50 (ДЕМО-курс; floor взят из ваших файлов). Картинки: img/<файл>.webp, анимации: tgs/<файл>.tgs */
@@ -110,6 +149,7 @@ const KEY='void_state_v3',NEED=6;
 const START_IDS=['Snake_Box','Coconut_Drink','Torch'];
 const fresh=()=>({bal:1000,inv:START_IDS.map((id,i)=>({u:i+1,id,src:'start',bd:['Sapphire','Emerald','Persimmon'][i%3]})),col:START_IDS.slice(),claimed:false,next:START_IDS.length+1});
 let S;try{S=JSON.parse(localStorage.getItem(KEY))||fresh()}catch(e){S=fresh()}
+S.xp=S.xp||0;S.ups=S.ups||0;S.wins=S.wins||0;
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 let srcU=null,tgt=null,tgtBd=null,busy=false,filter='all',q='';
 const $=id=>document.getElementById(id);
@@ -255,7 +295,36 @@ function renderTabs(){
  $('tabs').innerHTML=T.map(([k,l])=>`<button class="${filter===k?'on':''}" data-k="${k}">${l}</button>`).join('');
  $('tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{filter=b.dataset.k;renderTabs();renderCat()});
 }
-function renderAll(){$('balance').textContent=fmt(S.bal);renderArena();renderCollection();renderInv();renderCat()}
+/* ===== Профиль, уровни, XP ===== */
+const tg=window.Telegram&&window.Telegram.WebApp;try{tg&&tg.ready&&tg.ready();tg&&tg.expand&&tg.expand()}catch(e){}
+const TU=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||null;
+const XP_ATTEMPT=10,XP_WIN=15;
+const need=l=>100+50*(l-1); /* XP до следующего уровня */
+const xpInfo=t=>{let l=1,r=t;while(r>=need(l)){r-=need(l);l++}return{level:l,cur:r,need:need(l)}};
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function renderProfile(){
+ const name=TU?[TU.first_name,TU.last_name].filter(Boolean).join(' ')||'Player':'Guest';
+ $('pname').textContent=name;$('puser').textContent=TU&&TU.username?'@'+TU.username:(TU?'':'Открой в Telegram');
+ const av=$('ava'),ini=esc((name[0]||'?').toUpperCase());
+ if(av.dataset.k!==(TU&&TU.photo_url||'')+name){av.dataset.k=(TU&&TU.photo_url||'')+name;
+  if(TU&&TU.photo_url){av.innerHTML='<img alt="">';const im=av.firstChild;im.onerror=()=>{av.textContent=ini};im.src=TU.photo_url}else av.textContent=ini}
+ const x=xpInfo(S.xp||0);
+ $('lvlNum').textContent=x.level;$('xpNum').textContent=x.cur+' / '+x.need+' XP';$('xpFill').style.width=(x.cur/x.need*100)+'%';
+ $('stUps').textContent=S.ups||0;$('stWins').textContent=S.wins||0;$('stInv').textContent=S.inv.length;
+}
+function renderColView(){
+ $('colCount').textContent=S.col.length;
+ $('colGrid').innerHTML=S.col.map(id=>byId[id]).filter(Boolean).map(g=>tile(g,'static','tabindex="-1"')).join('');
+}
+/* ===== Нижнее меню ===== */
+let view='main';
+function show(v){view=v;
+ ['main','col','prof'].forEach(k=>{$('view-'+k).hidden=k!==v});
+ document.querySelectorAll('.nb').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+ if(v==='main'){fit();renderArena()}
+ window.scrollTo(0,0)}
+document.querySelectorAll('.nb').forEach(b=>b.onclick=()=>show(b.dataset.v));
+function renderAll(){$('balance').textContent=fmt(S.bal);renderArena();renderCollection();renderInv();renderCat();renderProfile();renderColView()}
 
 function buy(){
  const g=byId[tgt];if(!g||S.bal<g.value)return;
@@ -292,10 +361,11 @@ function upgrade(){
  const finish=()=>{{arena.classList.remove('spinning');busy=false;$('buttonText').textContent='START UPGRADE';
    const from=byId[s.id],to=byId[tgt];
    S.inv=S.inv.filter(x=>x.u!==s.u);srcU=null;
+   const lv0=xpInfo(S.xp||0).level,gain=XP_ATTEMPT+(ok?XP_WIN:0);S.xp=(S.xp||0)+gain;S.ups=(S.ups||0)+1;if(ok)S.wins=(S.wins||0)+1;const lv1=xpInfo(S.xp).level;
    if(ok){S.inv.push({u:S.next++,id:tgt,src:'upgrade',bd:tgtBd||rndBd()});if(!inCol(tgt))S.col.push(tgt)}
    save();renderAll();
    $('status').textContent=ok?'✦ SUCCESS':'● FAILED';
-   $('message').textContent=ok?`✦ Успех! ${from.name} → ${to.name} (тест).`:`Неудача: ${from.name} сгорел (тест).`;
+   $('message').textContent=(ok?`✦ Успех! ${from.name} → ${to.name} (тест).`:`Неудача: ${from.name} сгорел (тест).`)+` +${gain} XP`+(lv1>lv0?` · Уровень ${lv1}!`:'');
    if(ok)$('targetArt').classList.add('result');
    $('chance').textContent=p.toFixed(1)+'%';$('fill').style.width=p+'%';
    if(ok){flash=1;const fl=()=>{flash=Math.max(0,flash-.025);drawStage(p,0);if(flash>0)requestAnimationFrame(fl)};fl()}
@@ -303,7 +373,7 @@ function upgrade(){
 }
 $('upgrade').onclick=upgrade;
 $('search').oninput=e=>{q=e.target.value.trim().toLowerCase();renderCat()};
-document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&!['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)){e.preventDefault();upgrade()}});
+document.addEventListener('keydown',e=>{if(view==='main'&&e.code==='Space'&&!e.repeat&&!['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)){e.preventDefault();upgrade()}});
 renderTabs();fit();renderAll();
 })();
 </script></body></html>
