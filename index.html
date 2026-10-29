@@ -1,5 +1,309 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VOID — Gift Upgrader</title><style>
-:root{color-scheme:dark;--bg:#090a0d;--panel:#101115;--line:#2d3036;--text:#f1f2f4;--muted:#92959e;--white:#e9eaed}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{max-width:500px;min-height:100vh;margin:auto;padding:22px 18px 28px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 34%,#191b21 0,transparent 45%),var(--bg)}.stars{position:absolute;inset:0;pointer-events:none;opacity:.65;background-image:radial-gradient(#ddd 1px,transparent 1px),radial-gradient(#777 1px,transparent 1px);background-size:79px 83px,113px 127px;background-position:8px 13px,43px 57px}.content{position:relative}.top{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.14em;font-weight:750}.logo{border:1px solid #5b5e66;border-radius:50%;width:30px;height:30px;display:grid;place-items:center}.pill{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:7px 9px;letter-spacing:.1em}.kicker{margin:28px 0 8px;color:var(--muted);font-size:10px;letter-spacing:.2em}h1{font-size:34px;letter-spacing:-.055em;line-height:1.05;margin:0;font-weight:720}.sub{font-size:13px;color:var(--muted);line-height:1.5;margin:10px 0 20px}.panel{border:1px solid var(--line);border-radius:20px;padding:16px;background:#0e0f12}.panelhead{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;letter-spacing:.12em}.status{color:#c6c8cf}.arena{display:grid;grid-template-columns:1fr 42px 1fr;gap:4px;align-items:center;padding:25px 0 20px;min-height:200px}.item{text-align:center;min-width:0}.gift{width:88px;height:88px;border:1px solid #303238;border-radius:23px;margin:0 auto 11px;display:grid;place-items:center;background:linear-gradient(145deg,#1c1e23,#0a0b0d);transition:.2s}.gift svg{width:49px;height:49px;filter:drop-shadow(0 0 10px #fff2)}.itemname{font-weight:650;font-size:12px;white-space:nowrap}.value{font-size:11px;color:var(--muted);margin-top:5px}.arrow{text-align:center;color:#8b8e97;font-size:22px}.chancebox{border-top:1px solid #292b30;padding-top:15px}.chancerow{display:flex;justify-content:space-between;align-items:end;margin-bottom:11px}.label{font-size:10px;color:var(--muted);letter-spacing:.12em}.chance{font-size:30px;letter-spacing:-.06em;font-weight:680;font-variant-numeric:tabular-nums}.track{height:4px;background:#2a2c31;border-radius:9px;overflow:hidden}.fill{height:100%;width:68.4%;background:#e9eaed;transition:width .3s}.hint{display:flex;justify-content:space-between;color:#858891;font-size:11px;margin-top:9px}.action{width:100%;margin-top:16px;border:0;border-radius:13px;min-height:54px;background:var(--white);color:#090a0d;font-weight:750;letter-spacing:.04em;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}.action:disabled{opacity:.6;cursor:wait}.key{border:1px solid #8a8c93;border-bottom-width:3px;border-radius:5px;padding:5px 8px;font-size:11px}.message{min-height:22px;margin-top:12px;text-align:center;color:#a0a3ab;font-size:12px;line-height:1.5}.picktitle{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;letter-spacing:.13em;margin:25px 0 11px}.items{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.pick{background:#101115;color:var(--text);border:1px solid #2d3036;border-radius:13px;padding:10px 4px 9px;cursor:pointer;min-width:0}.pick.selected{background:#202228;border-color:#d2d4da}.pick svg{width:31px;height:31px;display:block;margin:0 auto 8px}.pickname{font-size:10px;font-weight:650;overflow-wrap:anywhere}.pickval{font-size:10px;color:var(--muted);margin-top:4px}.footer{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #282a2f;margin-top:20px;padding-top:14px;font-size:9px;letter-spacing:.06em;color:#777a83}.spinning .gift{animation:glow .55s infinite alternate}.spinning .arrow{animation:spin .8s linear infinite}@keyframes glow{to{box-shadow:0 0 28px #fff3;border-color:#cfd1d7}}@keyframes spin{to{transform:rotate(360deg)}}.result{animation:pop .45s ease}@keyframes pop{0%{transform:scale(.85);opacity:.2;filter:blur(3px)}100%{transform:scale(1);opacity:1;filter:blur(0)}}@media(max-width:360px){.app{padding:18px 12px}.gift{width:76px;height:76px}.arena{grid-template-columns:1fr 30px 1fr}.items{gap:5px}}@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-</style></head><body><main class="app"><div class="stars"></div><div class="content"><header class="top"><div class="brand"><div class="logo">◉</div> VOID / UPGRADE</div><div class="pill">DEMO · 01</div></header><div class="kicker">TELEGRAM GIFT LAB</div><h1>One gift.<br>One chance.</h1><p class="sub">Апгрейд подарков в минималистичной космической среде.</p><section class="panel"><div class="panelhead"><span>UPGRADE ENGINE</span><span class="status" id="status">● READY</span></div><div class="arena" id="arena"><div class="item"><div class="gift" id="sourceArt"></div><div class="itemname" id="sourceName">Plush Star</div><div class="value" id="sourceValue">★ 100</div></div><div class="arrow">→</div><div class="item"><div class="gift" id="targetArt"></div><div class="itemname" id="targetName">Crystal Orbit</div><div class="value" id="targetValue">★ 146</div></div></div><div class="chancebox"><div class="chancerow"><span class="label">SUCCESS PROBABILITY</span><span class="chance" id="chance">68.4%</span></div><div class="track"><div class="fill" id="fill"></div></div><div class="hint"><span id="risk">Higher value · Higher risk</span><span id="ratio">×1.46</span></div></div><button class="action" id="upgrade"><span class="key">SPACE</span><span id="buttonText">START UPGRADE</span></button><div class="message" id="message" aria-live="polite">Нажми SPACE или кнопку, чтобы начать</div></section><div class="picktitle"><span>CHOOSE YOUR TARGET</span><span>4 ITEMS</span></div><div class="items" id="items"></div><footer class="footer"><span>SIMULATED ITEMS · NO REAL TRADES</span><span>VOID © DEMO</span></footer></div></main><script>
-(()=>{const gifts=[{name:'Plush Star',value:100,icon:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M13 28h38v27H13zM9 20h46v10H9zM32 20v35M32 20c-17 0-19-13-10-13 7 0 10 13 10 13ZM32 20c17 0 19-13 10-13-7 0-10 13-10 13Z"/></svg>'},{name:'Crystal Orbit',value:146,icon:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M32 5 54 18v28L32 59 10 46V18L32 5Z M10 18l22 14 22-14M32 32v27M21 11l22 42"/></svg>'},{name:'Moon Ring',value:250,icon:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="32" cy="32" r="22"/><ellipse cx="32" cy="32" rx="29" ry="10" transform="rotate(-30 32 32)"/><circle cx="32" cy="32" r="5"/></svg>'},{name:'Nova',value:500,icon:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M32 4 39 24 60 32 39 40 32 60 25 40 4 32 25 24 32 4Z"/><circle cx="32" cy="32" r="7"/></svg>'}];let source=0,target=1,busy=false;const $=id=>document.getElementById(id);const chance=()=>Math.max(2,Math.min(95,gifts[source].value/gifts[target].value*100));function render(){const s=gifts[source],t=gifts[target],p=chance();$('sourceArt').innerHTML=s.icon;$('targetArt').innerHTML=t.icon;$('sourceName').textContent=s.name;$('sourceValue').textContent='★ '+s.value;$('targetName').textContent=t.name;$('targetValue').textContent='★ '+t.value;$('chance').textContent=p.toFixed(1)+'%';$('fill').style.width=p+'%';$('ratio').textContent='×'+(t.value/s.value).toFixed(2);$('risk').textContent=t.value<=s.value?'Lower risk · Demo mode':'Higher value · Higher risk';document.querySelectorAll('.pick').forEach((b,i)=>b.classList.toggle('selected',i===target))}function buildPicks(){$('items').innerHTML=gifts.map((g,i)=>`<button class="pick ${i===target?'selected':''}" data-index="${i}">${g.icon}<div class="pickname">${g.name}</div><div class="pickval">★ ${g.value}</div></button>`).join('');document.querySelectorAll('.pick').forEach(b=>b.addEventListener('click',()=>{if(busy)return;target=Number(b.dataset.index);if(target===source)source=Math.max(0,target-1);render();$('status').textContent='● READY';$('message').textContent='Цель выбрана. Можно запускать апгрейд.'}))}function upgrade(){if(busy)return;if(target===source){$('message').textContent='Выбери другой предмет для апгрейда.';return}busy=true;const arena=$('arena'),button=$('upgrade');button.disabled=true;$('status').textContent='● PROCESSING';$('buttonText').textContent='UPGRADING…';$('message').textContent='Система рассчитывает результат…';arena.classList.add('spinning');let ticks=0;const timer=setInterval(()=>{ticks++;$('chance').textContent=Math.max(0,Math.min(100,chance()+(10-ticks)/10*(Math.random()*14-7))).toFixed(1)+'%';if(ticks>=12){clearInterval(timer);arena.classList.remove('spinning');busy=false;button.disabled=false;$('buttonText').textContent='TRY AGAIN';const ok=Math.random()*100<chance();$('status').textContent=ok?'✦ SUCCESS':'● FAILED';$('message').textContent=ok?'✦ Успех! Апгрейд прошёл (демо).':'Попытка не удалась. Это демонстрационный результат.';if(ok)$('targetArt').classList.add('result');$('chance').textContent=chance().toFixed(1)+'%';$('fill').style.width=chance()+'%'}},100)}$('upgrade').addEventListener('click',upgrade);document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&!['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)){e.preventDefault();upgrade()}});buildPicks();render()})();
+:root{color-scheme:dark;--bg:#090a0d;--panel:#101115;--line:#2d3036;--text:#f1f2f4;--muted:#92959e;--white:#e9eaed;--green:#0f3d27;--greenline:#2f9e68}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.app{max-width:500px;min-height:100vh;margin:auto;padding:22px 18px 28px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 34%,#191b21 0,transparent 45%),var(--bg)}
+.stars{position:absolute;inset:0;pointer-events:none;opacity:.65;background-image:radial-gradient(#ddd 1px,transparent 1px),radial-gradient(#777 1px,transparent 1px);background-size:79px 83px,113px 127px;background-position:8px 13px,43px 57px}
+.content{position:relative}
+.top{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.14em;font-weight:750}
+.logo{border:1px solid #5b5e66;border-radius:50%;width:30px;height:30px;display:grid;place-items:center}
+.balance{font-size:13px;font-weight:700;border:1px solid #5b5e66;border-radius:20px;padding:7px 12px;font-variant-numeric:tabular-nums}
+.balance small{display:block;font-size:8px;color:var(--muted);letter-spacing:.12em;font-weight:500;text-align:right;margin-top:1px}
+.kicker{margin:26px 0 8px;color:var(--muted);font-size:10px;letter-spacing:.2em}
+h1{font-size:34px;letter-spacing:-.055em;line-height:1.05;margin:0;font-weight:720}
+.sub{font-size:13px;color:var(--muted);line-height:1.5;margin:10px 0 20px}
+.panel{border:1px solid var(--line);border-radius:20px;padding:16px;background:#0e0f12}
+.panelhead{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;letter-spacing:.12em}
+.status{color:#c6c8cf}
+.arena{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;padding:20px 0 4px;margin-top:16px;border-top:1px solid #292b30}
+.item{text-align:center;min-width:0}
+.gift{width:88px;height:88px;border:1px solid #303238;border-radius:23px;margin:0 auto 11px;display:grid;place-items:center;background:linear-gradient(145deg,#1c1e23,#0a0b0d);transition:.2s;font-size:42px;overflow:hidden}
+.gift.empty{font-size:12px;color:var(--muted);border-style:dashed}
+.gift.green{border-color:var(--greenline);box-shadow:0 0 0 2px var(--greenline)}
+.tile.green{background:linear-gradient(145deg,#145236,var(--green));border-color:var(--greenline)}
+.itemname{font-weight:650;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.value{font-size:11px;color:var(--muted);margin-top:5px}
+.arrow{text-align:center;color:#8b8e97;font-size:22px}
+.chancebox{border-top:1px solid #292b30;padding-top:15px}
+.chancerow{display:flex;justify-content:space-between;align-items:end;margin-bottom:11px}
+.label{font-size:10px;color:var(--muted);letter-spacing:.12em}
+.chance{font-size:30px;letter-spacing:-.06em;font-weight:680;font-variant-numeric:tabular-nums}
+.track{height:4px;background:#2a2c31;border-radius:9px;overflow:hidden}
+.fill{height:100%;width:0;background:#e9eaed;transition:width .3s}
+.hint{display:flex;justify-content:space-between;color:#858891;font-size:11px;margin-top:9px}
+.action{width:100%;margin-top:16px;border:0;border-radius:13px;min-height:54px;background:var(--white);color:#090a0d;font-weight:750;letter-spacing:.04em;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;font-size:14px}
+.action:disabled{opacity:.5;cursor:not-allowed}
+.key{border:1px solid #8a8c93;border-bottom-width:3px;border-radius:5px;padding:5px 8px;font-size:11px}
+.message{min-height:22px;margin-top:12px;text-align:center;color:#a0a3ab;font-size:12px;line-height:1.5}
+.sectitle{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;letter-spacing:.13em;margin:26px 0 11px}
+.collection{border:1px solid var(--line);border-radius:16px;padding:14px;background:#0e0f12;margin-top:16px}
+.cbar{display:flex;gap:5px;margin:10px 0}
+.cbar i{flex:1;height:6px;border-radius:4px;background:#2a2c31}
+.cbar i.on{background:var(--greenline)}
+.cbtn{width:100%;border:1px solid var(--greenline);background:transparent;color:#bdf0d4;border-radius:10px;padding:10px;font-weight:700;cursor:pointer}
+.cbtn:disabled{opacity:.4;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tile{background:#101115;color:var(--text);border:1px solid #2d3036;border-radius:13px;padding:10px 4px 9px;cursor:pointer;min-width:0;text-align:center;font:inherit}
+.tile.sel{border-color:#d2d4da;box-shadow:0 0 0 1px #d2d4da}
+.tile .em{display:block;width:100%;margin:0 auto}
+.tile .nm{font-size:10px;font-weight:650;margin-top:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px}
+.tile .pv{font-size:10px;color:var(--muted);margin-top:3px}
+.tile .tag{font-size:8px;letter-spacing:.08em;color:#bdf0d4;margin-top:3px}
+.empty-note{grid-column:1/-1;color:var(--muted);font-size:12px;padding:14px 0;text-align:center}
+.search{width:100%;background:#101115;border:1px solid var(--line);border-radius:11px;color:var(--text);padding:11px 12px;font:inherit;margin-bottom:9px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;padding-bottom:2px}
+.tabs button{flex:none;background:#101115;border:1px solid var(--line);color:var(--muted);border-radius:18px;padding:7px 12px;font-size:11px;cursor:pointer}
+.tabs button.on{color:#090a0d;background:var(--white);border-color:var(--white)}
+.detail{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:13px;padding:11px 12px;margin-bottom:10px;background:#0e0f12}
+.detail b{display:block;font-size:13px}
+.detail span{font-size:11px;color:var(--muted)}
+.buy{flex:none;border:0;border-radius:10px;background:var(--white);color:#090a0d;font-weight:750;padding:10px 14px;cursor:pointer}
+.buy:disabled{opacity:.4;cursor:not-allowed}
+.stage{display:block;width:100%;height:230px;margin-top:8px}
+.art{position:relative;display:block;width:100%;aspect-ratio:1;border-radius:12px;overflow:hidden}
+.art img,.art .anim{position:absolute;inset:6%;width:88%;height:88%;object-fit:contain}
+.gift .art{height:100%;border-radius:0}
+.footer{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #282a2f;margin-top:22px;padding-top:14px;font-size:9px;letter-spacing:.06em;color:#777a83}
+.spinning .gift{animation:glow .55s infinite alternate}
+.spinning .arrow{animation:spin .8s linear infinite}
+@keyframes glow{to{box-shadow:0 0 28px #fff3;border-color:#cfd1d7}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.result{animation:pop .45s ease}
+@keyframes pop{0%{transform:scale(.85);opacity:.2;filter:blur(3px)}100%{transform:scale(1);opacity:1;filter:blur(0)}}
+@media(max-width:360px){.app{padding:18px 12px}.gift{width:76px;height:76px}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style></head><body><main class="app"><div class="stars"></div><div class="content">
+<header class="top"><div class="brand"><div class="logo">◉</div> VOID / UPGRADE</div><div class="balance"><span id="balance">★ 1000</span><small>TEST BALANCE</small></div></header>
+<div class="kicker">TELEGRAM GIFT LAB</div><h1>One gift.<br>One chance.</h1><p class="sub">Выбери подарок из инвентаря, цель из каталога и запусти апгрейд.</p>
+
+<section class="panel"><div class="panelhead"><span>UPGRADE ENGINE</span><span class="status" id="status">● READY</span></div>
+<canvas class="stage" id="stage" aria-label="Орбита"></canvas>
+<div class="chancebox"><div class="chancerow"><span class="label">SUCCESS PROBABILITY</span><span class="chance" id="chance">—</span></div><div class="track"><div class="fill" id="fill"></div></div><div class="hint"><span id="risk">Шанс = ценность исходного / цели</span><span id="ratio"></span></div></div>
+<div class="arena" id="arena">
+<div class="item"><div class="gift empty" id="sourceArt">выбери</div><div class="itemname" id="sourceName">Из инвентаря</div><div class="value" id="sourceValue">—</div></div>
+<div class="item"><div class="gift empty" id="targetArt">выбери</div><div class="itemname" id="targetName">Из каталога</div><div class="value" id="targetValue">—</div></div></div>
+<button class="action" id="upgrade" disabled><span class="key">SPACE</span><span id="buttonText">START UPGRADE</span></button>
+<div class="message" id="message" aria-live="polite">Выбери подарок в инвентаре и цель в каталоге</div></section>
+
+<section class="collection"><div class="panelhead"><span>COLLECTION BONUS</span><span class="status" id="cprog">0 / 6</span></div><div class="cbar" id="cbar"></div>
+<button class="cbtn" id="cclaim" disabled>Собери 6 разных подарков → +★ 500 (тест)</button>
+<div class="message" style="min-height:0;margin-top:9px;font-size:11px">В коллекцию идут стартовые подарки и успешные апгрейды. Покупки не засчитываются.</div></section>
+
+<div class="sectitle"><span>MY INVENTORY</span><span id="invCount">0</span></div><div class="grid" id="inv"></div>
+
+<div class="sectitle"><span>GIFT CATALOG</span><span id="catCount"></span></div>
+<input class="search" id="search" type="search" placeholder="Поиск по названию" autocomplete="off">
+<div class="tabs" id="tabs"></div>
+<div class="detail" id="detail" hidden></div>
+<div class="grid" id="cat"></div>
+
+<footer class="footer"><span>SIMULATED ITEMS · NO REAL TRADES</span><span>VOID © DEMO</span></footer>
+</div></main><script src="images.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js" defer></script><script>
+(()=>{
+/* Каталог: реальные подарки Telegram. [файл, название, цена в ★, тираж, цена-демо?]
+   Цена ★ = floor в TON × 50 (ДЕМО-курс; floor взят из ваших файлов). Картинки: img/<файл>.webp, анимации: tgs/<файл>.tgs */
+const DATA=[["Snake_Box","Snake Box",181,400000,0],["Coconut_Drink","Coconut Drink",194,500000,0],["Torch","Torch",194,500000,0],["Cone_IceCream","Cone IceCream",194,500000,0],["Ice_Cream","Ice Cream",195,350000,0],["Candy_Cane","Candy Cane",195,600000,0],["Lunar_Snake","Lunar Snake",197,400000,0],["Pink_Flamingo","Pink Flamingo",198,250000,0],["Instant_Ramen","Instant Ramen",198,500000,0],["Xmas_Stocking","Xmas Stocking",198,600000,0],["Lol_Pop","Lol Pop",198,500000,0],["Big_Year","Big Year",199,200000,0],["Happy_Brownie","Happy Brownie",200,300000,0],["Whip_Cupcake","Whip Cupcake",202,400000,0],["Jester_Hat","Jester Hat",202,400000,0],["Tama_Gadget","Tama Gadget",204,200000,0],["Pet_Snake","Pet Snake",208,400000,0],["Easter_Egg","Easter Egg",209,180000,0],["Hypno_Lollipop","Hypno Lollipop",210,300000,0],["Spiced_Wine","Spiced Wine",214,400000,0],["Backpack","Backpack",216,200000,0],["Fresh_Socks","Fresh Socks",220,250000,0],["Book","Book",221,100000,0],["Homemade_Cake","Homemade Cake",223,500000,0],["Star_Notepad","Star Notepad",225,200000,0],["Holiday_Drink","Holiday Drink",225,200000,0],["Golden_Medal","Golden Medal",227,150000,0],["Ginger_Cookie","Ginger Cookie",234,300000,0],["Jack-in-the-Box","Jack-in-the-Box",235,100000,0],["B-Day_Candle","B-Day Candle",235,500000,0],["Party_Sparkler","Party Sparkler",242,400000,0],["Winter_Wreath","Winter Wreath",245,200000,0],["Pencil","Pencil",250,50000,1],["REDO","REDO",250,20000,1],["Clover_Pin","Clover Pin",250,300000,0],["Mousse_Cake","Mousse Cake",250,250000,0],["Heart_Pendant","Heart Pendant",250,80000,1],["Lamp_Candle","Lamp Candle",250,300000,1],["Restless_Jar","Restless Jar",253,150000,0],["Money_Pot","Money Pot",254,120000,0],["Stellar_Rocket","Stellar Rocket",255,180000,0],["Cookie_Heart","Cookie Heart",258,400000,0],["Statue","Statue",262,300000,0],["Swag_Bag","Swag Bag",264,240000,0],["Pretty_Posy","Pretty Posy",265,200000,0],["Snoop_Dogg","Snoop Dogg",275,600000,0],["Spring_Basket","Spring Basket",277,250000,0],["Faith_Amulet","Faith Amulet",290,200000,0],["Bow_Tie","Bow Tie",293,100000,0],["Hex_Pot","Hex Pot",298,120000,0],["Lush_Bouquet","Lush Bouquet",299,180000,0],["Desk_Calendar","Desk Calendar",300,500000,0],["Moon_Pendant","Moon Pendant",302,120000,0],["Spy_Agaric","Spy Agaric",306,100000,0],["Input_Key","Input Key",310,200000,0],["Light_Sword","Light Sword",317,150000,0],["Eternal_Candle","Eternal Candle",319,50000,0],["Snow_Globe","Snow Globe",324,120000,0],["Santa_Hat","Santa Hat",325,150000,0],["Surfboard","Surfboard",347,40000,0],["Cream_IceCream","Cream IceCream",350,250000,0],["Jolly_Chimp","Jolly Chimp",362,150000,0],["Joyful_Bundle","Joyful Bundle",397,150000,0],["Snow_Mittens","Snow Mittens",399,90000,0],["Jelly_Bunny","Jelly Bunny",405,200000,0],["Bunny_Muffin","Bunny Muffin",418,100000,0],["Evil_Eye","Evil Eye",419,120000,0],["Sand_Castle","Sand Castle",435,150000,0],["Berry_Box","Berry Box",438,100000,0],["Witch_Hat","Witch Hat",443,100000,0],["Easter_Cake","Easter Cake",494,500000,0],["Hanging_Star","Hanging Star",495,100000,0],["Top_Hat","Top Hat",500,40000,0],["Sleigh_Bell","Sleigh Bell",506,50000,0],["Jingle_Bells","Jingle Bells",522,200000,0],["Sakura_Flower","Sakura Flower",535,100000,0],["Love_Candle","Love Candle",575,50000,0],["Valentine_Box","Valentine Box",595,50000,0],["Record_Player","Record Player",610,100000,0],["Skull_Flower","Skull Flower",622,30000,0],["Flying_Broom","Flying Broom",671,30000,0],["Crystal_Ball","Crystal Ball",685,30000,0],["Love_Potion","Love Potion",740,35000,0],["Snoop_Cigar","Snoop Cigar",746,120000,0],["Ionic_Dryer","Ionic Dryer",764,40000,0],["Bird_Mark","Bird Mark",778,250000,0],["UFC_Strike","UFC Strike",802,60000,0],["Trapped_Heart","Trapped Heart",840,30000,0],["Mad_Pumpkin","Mad Pumpkin",843,30000,0],["Sky_Stilettos","Sky Stilettos",888,70000,0],["Mask","Mask",929,250000,0],["Cupid_Charm","Cupid Charm",1117,40000,0],["Khabibs_Papakha","Khabib’s Papakha",1244,29000,0],["Eternal_Rose","Eternal Rose",1278,50000,0],["Bling_Binky","Bling Binky",1299,10000,0],["Eagle","Eagle",1427,15000,0],["Electric_Skull","Electric Skull",1495,10000,0],["Eight_Roses","Eight Roses",1500,150000,0],["1_May","1 May",1600,500000,0],["Diamond_Ring","Diamond Ring",1638,35000,0],["Case","Case",1700,25000,0],["Toy_Bear","Toy Bear",1717,60000,0],["Signet_Ring","Signet Ring",1784,30000,0],["Genie_Lamp","Genie Lamp",1850,15000,0],["Coffin","Coffin",1890,40000,0],["Vintage_Cigar","Vintage Cigar",1891,50000,0],["Neko_Helmet","Neko Helmet",1953,18000,0],["Voodoo_Doll","Voodoo Doll",1977,30000,0],["Red_Star","Red Star",2000,500000,0],["Bonded_Ring","Bonded Ring",2150,9000,0],["Sharp_Tongue","Sharp Tongue",2474,10000,0],["Kissed_Frog","Kissed Frog",2732,15000,0],["Swiss_Watch","Swiss Watch",2908,50000,0],["Magic_Potion","Magic Potion",3008,5000,0],["Low_Rider","Low Rider",3030,24000,0],["Gem_Signet","Gem Signet",3362,10000,0],["Ion_Gem","Ion Gem",3569,5000,0],["Artisan_Brick","Artisan Brick",3649,7000,0],["Mini_Oscar","Mini Oscar",3700,10000,0],["Perfume_Bottle","Perfume Bottle",4068,10000,0],["Trojan_Horse","Trojan Horse",4462,10000,0],["Grave","Grave",5156,10000,0],["Sneakers","Sneakers",5250,10000,0],["Westside_Sign","Westside Sign",5707,12000,0],["Nail_Bracelet","Nail Bracelet",5967,5000,0],["Mighty_Arm","Mighty Arm",5995,5000,0],["Astral_Shard","Astral Shard",6118,10000,0],["Loot_Bag","Loot Bag",6477,15000,0],["Durov_Glasses","Durov Glasses",6667,5000,0],["T-shirt","T-shirt",6990,10000,0],["Heroic_Helmet","Heroic Helmet",9290,8000,0],["Precious_Peach","Precious Peach",12970,5000,0],["Scared_Cat","Scared Cat",14100,20000,0],["Durovs_Cap","Durov’s Cap",20500,5000,0],["Heart_Locket","Heart Locket",61750,2000,0],["Durovs_Statuette","Durov's Statuette",150202,4100,0],["Plush_Pepe","Plush Pepe",316500,3000,0],["Telegram_Pin","Telegram Pin",417375,1000,0]];
+const G=DATA.map(([id,name,value,supply,demo])=>({id,name,value,supply,demo,kind:value<500?'a':value<2000?'b':'c'}));
+const byId=Object.fromEntries(G.map(g=>[g.id,g]));
+const KEY='void_state_v3',NEED=6;
+const START_IDS=['Snake_Box','Coconut_Drink','Torch'];
+const fresh=()=>({bal:1000,inv:START_IDS.map((id,i)=>({u:i+1,id,src:'start',bd:['Sapphire','Emerald','Persimmon'][i%3]})),col:START_IDS.slice(),claimed:false,next:START_IDS.length+1});
+let S;try{S=JSON.parse(localStorage.getItem(KEY))||fresh()}catch(e){S=fresh()}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+let srcU=null,tgt=null,tgtBd=null,busy=false,filter='all',q='';
+const $=id=>document.getElementById(id);
+const fmt=n=>'★ '+n.toLocaleString('ru-RU');
+const inCol=id=>S.col.includes(id);
+const srcItem=()=>S.inv.find(x=>x.u===srcU);
+const chance=()=>{const s=srcItem();if(!s||!tgt)return null;return Math.max(2,Math.min(95,byId[s.id].value/byId[tgt].value*100))};
+/* Фоны подарков (приблизительные цвета названий фонов Telegram): [название, центр, край] */
+const BD=[['Amber','#ffc24a','#b87400'],['Aquamarine','#7fe6d0','#2b8f80'],['Azure Blue','#4aa8ff','#145a9e'],['Battleship Grey','#9aa0a8','#4a4f56'],['Black','#3a3a40','#0b0b0d'],['Burgundy','#a8324a','#4a0f1f'],['Burnt Sienna','#d4663a','#7a2f12'],['Camo Green','#8a9a5b','#3d4a1f'],['Cappuccino','#c9a88a','#6b4d38'],['Caramel','#e0a35a','#8a5420'],['Carmine','#e0304a','#6b0f22'],['Carrot Juice','#ff9234','#b04a00'],['Celtic Blue','#3a86d8','#123f7a'],['Chestnut','#b0613f','#582814'],['Chocolate','#8a5a3a','#3a2012'],['Cobalt Blue','#3a5fe0','#13226e'],['Copper','#d98a5a','#7a3d1a'],['Coral Red','#ff6a5a','#a02a22'],['Cyberpunk','#ff4fd8','#4a1a8a'],['Dark Green','#3f8a5a','#12402a'],['Dark Lilac','#9a7ac0','#4a2a70'],['Deep Cyan','#2ab8c8','#0a5864'],['Desert Sand','#e6cfa0','#9a7d4a'],['Electric Indigo','#6a4aff','#241a8a'],['Electric Purple','#b04aff','#4a128a'],['Emerald','#2fd08a','#0a6a42'],['English Violet','#7a5a8a','#3a2548'],['Fandango','#c0408a','#6a1a4a'],['Feldgrau','#7a8a80','#38423c'],['Fire Engine','#f03a3a','#8a1010'],['French Blue','#4a8ad8','#1a4a8a'],['French Violet','#9a4aff','#4a1a9a'],['Grape','#8a4a9a','#40184e'],['Gunmetal','#6a7480','#2a3038'],['Gunship Green','#5a8a6a','#244a32'],['Hunter Green','#4a7a52','#1a3a24'],['Indigo Dye','#3a5a9a','#12264e'],['Ivory White','#f4efe0','#b8b098'],['Jade Green','#3fc08a','#12704a'],['Khaki Green','#a8a868','#5a5a28'],['Lavender','#c8a8f0','#7a5aa8'],['Lemongrass','#d8e04a','#7a8a12'],['Light Olive','#c0c070','#6a6a2a'],['Malachite','#2ad06a','#0a6a2a'],['Marine Blue','#2a7ab8','#0a3a6a'],['Mexican Pink','#ff3a9a','#9a0a52'],['Midnight Blue','#2a3a8a','#0a1040'],['Mint Green','#8af0b8','#3aa070'],['Moonstone','#a8c8d8','#5a7a8a'],['Mustard','#e0b82a','#8a6a0a'],['Mystic Pearl','#e8c8d8','#a07a90'],['Navy Blue','#2a4a9a','#0a1a4a'],['Neon Blue','#2a9aff','#0a3ab0'],['Old Gold','#c8a84a','#6a5018'],['Onyx Black','#2a2a2e','#050507'],['Orange','#ff8a2a','#b04a00'],['Pacific Cyan','#2ac0e0','#0a6a8a'],['Pacific Green','#2ac0a0','#0a6a58'],['Persimmon','#ff6a3a','#a82a0a'],['Pine Green','#2a7a62','#0a3a2e'],['Pistachio','#a8d88a','#5a9a3a'],['Platinum','#d8dce4','#8a909c'],['Pure Gold','#ffd84a','#b08a0a'],['Purple','#a04ad8','#4a1a7a'],['Ranger Green','#5a7a48','#24381a'],['Raspberry','#d83a7a','#7a0a3a'],['Rifle Green','#4a5a42','#1e281a'],['Roman Silver','#b0b4bc','#686c76'],['Rosewood','#a8483a','#4a1a14'],['Sapphire','#3a6ae0','#0a2a8a'],['Satin Gold','#e6c060','#9a7a22'],['Seal Brown','#6a4030','#2a1812'],['Shamrock Green','#3ac05a','#0a6a24'],['Silver Blue','#8aa8d0','#4a6890'],['Sky Blue','#6ac8f8','#2a88c0'],['Steel Grey','#8a96a4','#444e5a'],['Strawberry','#f0506a','#8a1a30'],['Tactical Pine','#4a6a50','#1a2e22'],['Tomato','#f0503a','#8a1a0a'],['Turquoise','#3ad8d0','#0a8a88']];
+const hash=s=>[...s].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
+const rndBd=()=>BD[Math.floor(Math.random()*BD.length)][0];
+const bdOf=n=>BD.find(b=>b[0]===n)||BD[hash(String(n))%BD.length];
+const bgCss=n=>{const b=bdOf(n);return `radial-gradient(circle at 50% 38%,${b[1]} 0,${b[2]} 100%)`};
+/* Карточка: цветной фон + подарок (webp). В арене поверх запускается анимация .tgs, если подключён lottie. */
+const art=(g,bd)=>`<div class="art" style="background:${bgCss(bd)}"><img src="${IMG[g.id]}" alt="${g.name}" loading="lazy" decoding="async"><div class="anim"></div></div>`;
+let packBuf=null;
+async function tgsBytes(id){const o=TGS[id];if(!o)return null;
+ if(packBuf)return packBuf.slice(o[0],o[0]+o[1]);
+ const r=await fetch('tgs.pack',{headers:{Range:'bytes='+o[0]+'-'+(o[0]+o[1]-1)}});
+ if(r.status===206)return await r.arrayBuffer();
+ if(!r.ok)return null;packBuf=await r.arrayBuffer();return packBuf.slice(o[0],o[0]+o[1])}
+async function playTgs(el,g){
+ if(!window.lottie||typeof DecompressionStream==='undefined')return;
+ try{const buf=await tgsBytes(g.id);if(!buf)return;
+  const txt=await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+  const box=el.querySelector('.anim');if(!box||el.dataset.gid!==g.id)return;
+  lottie.loadAnimation({container:box,renderer:'svg',loop:true,autoplay:true,animationData:JSON.parse(txt)});
+  const im=el.querySelector('img');if(im)im.style.visibility='hidden'}catch(e){}
+}
+const tile=(g,cls,extra,bd)=>`<button class="tile ${inCol(g.id)?'green':''} ${cls}" ${extra}><span class="em">${art(g,bd||g.id)}</span><div class="nm">${g.name}</div><div class="pv">${fmt(g.value)}</div>${inCol(g.id)?'<div class="tag">● COLLECTION</div>':''}</button>`;
+
+function renderArena(){
+ const s=srcItem(),t=tgt?byId[tgt]:null,p=chance();
+ const setArt=(el,g,bd)=>{const key=g?g.id+'|'+bd+'|'+inCol(g.id):'';if(el.dataset.key===key)return;el.dataset.key=key;el.dataset.gid=g?g.id:'';el.className='gift'+(g?(inCol(g.id)?' green':''):' empty');el.innerHTML=g?art(g,bd):'выбери';if(g)playTgs(el,g)};
+ setArt($('sourceArt'),s&&byId[s.id],s&&s.bd);setArt($('targetArt'),t,tgtBd);
+ $('sourceName').textContent=s?byId[s.id].name:'Из инвентаря';$('sourceValue').textContent=s?fmt(byId[s.id].value):'—';
+ $('targetName').textContent=t?t.name:'Из каталога';$('targetValue').textContent=t?fmt(t.value):'—';
+ $('chance').textContent=p===null?'—':p.toFixed(1)+'%';$('fill').style.width=(p||0)+'%';
+ $('ratio').textContent=(s&&t)?'×'+(t.value/byId[s.id].value).toFixed(2):'';
+ $('risk').textContent=(s&&t)?(t.value<=byId[s.id].value?'Lower risk':'Higher value · Higher risk'):'Шанс = ценность исходного / цели';
+ $('upgrade').disabled=busy||!s||!t||(s&&t&&s.id===tgt);
+ if(p!==null)animLevel(p/100);else if(!busy)drawStage(null,0);
+}
+
+/* ===== Сцена: объёмная планета и станция (3D-стиль), плоская круговая орбита (2D) ===== */
+const cv=$('stage'),cx=cv.getContext('2d');
+const START=-Math.PI/2;let W=0,H=0,theta=START,flash=0,lvl=0,lvlT=0,lvlRaf=0,aim=null,pointK=0;
+function animLevel(target){lvlT=target;if(lvlRaf)return;
+ const step=()=>{lvl+=(lvlT-lvl)*.1;const done=Math.abs(lvlT-lvl)<.002;if(done)lvl=lvlT;if(!busy)drawStage(null,0);lvlRaf=done?0:requestAnimationFrame(step)};
+ lvlRaf=requestAnimationFrame(step)}
+function fit(){const d=Math.min(2,window.devicePixelRatio||1);W=cv.clientWidth;H=cv.clientHeight;if(!W)return;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+function drawPlanet(x,y,r,g){
+ const gl=r*(1.45+g*.9),a=.08+g*.42+flash*.35;
+ let f=cx.createRadialGradient(x,y,r*.9,x,y,gl);f.addColorStop(0,`rgba(233,234,237,${a})`);f.addColorStop(1,'rgba(233,234,237,0)');
+ cx.fillStyle=f;cx.beginPath();cx.arc(x,y,gl,0,7);cx.fill();
+ const hi=52+g*36,mid=20+g*16;
+ f=cx.createRadialGradient(x-r*.4,y-r*.45,r*.06,x-r*.12,y-r*.14,r*1.08);
+ f.addColorStop(0,`hsl(220,6%,${hi}%)`);f.addColorStop(.38,`hsl(220,6%,${mid}%)`);f.addColorStop(.8,'hsl(220,8%,6%)');f.addColorStop(1,'hsl(220,8%,3%)');
+ cx.fillStyle=f;cx.beginPath();cx.arc(x,y,r,0,7);cx.fill();
+ cx.save();cx.beginPath();cx.arc(x,y,r,0,7);cx.clip();
+ cx.lineWidth=r*.07;
+ [[-.45,.9],[-.1,1.05],[.28,.95],[.6,.8]].forEach(([o,w])=>{cx.strokeStyle='rgba(0,0,0,.22)';cx.beginPath();cx.ellipse(x,y+o*r,r*w,r*.14,-.18,0,7);cx.stroke()});
+ [[-.3,-.1,.12],[.25,.3,.09],[-.05,.5,.07],[.45,-.3,.06]].forEach(([cxo,cyo,cr])=>{cx.fillStyle='rgba(0,0,0,.18)';cx.beginPath();cx.arc(x+cxo*r,y+cyo*r,cr*r,0,7);cx.fill()});
+ /* световая энергия: заполнение снизу вверх пропорционально шансу */
+ if(lvl>.003){
+  const top=y+r-2*r*lvl,t=performance.now()/450,N=28;
+  cx.beginPath();cx.moveTo(x-r-2,y+r+2);
+  for(let i=0;i<=N;i++){const px=x-r-2+i*((2*r+4)/N);cx.lineTo(px,top+Math.sin(i*.8+t)*r*.022*Math.min(1,lvl*8))}
+  cx.lineTo(x+r+2,y+r+2);cx.closePath();
+  const fg=cx.createLinearGradient(0,y+r,0,top);
+  fg.addColorStop(0,'rgba(200,204,214,.55)');fg.addColorStop(.75,'rgba(236,238,244,.82)');fg.addColorStop(1,'rgba(255,255,255,.97)');
+  cx.fillStyle=fg;cx.fill();
+  cx.save();cx.shadowColor='rgba(255,255,255,.9)';cx.shadowBlur=r*.22;cx.strokeStyle='rgba(255,255,255,.95)';cx.lineWidth=1.6;cx.beginPath();
+  for(let i=0;i<=N;i++){const px=x-r-2+i*((2*r+4)/N),py=top+Math.sin(i*.8+t)*r*.022*Math.min(1,lvl*8);i?cx.lineTo(px,py):cx.moveTo(px,py)}
+  cx.stroke();cx.restore();
+ }
+ f=cx.createRadialGradient(x+r*.55,y+r*.5,r*.2,x+r*.55,y+r*.5,r*1.3);f.addColorStop(0,'rgba(0,0,0,.55)');f.addColorStop(1,'rgba(0,0,0,0)');
+ cx.fillStyle=f;cx.fillRect(x-r,y-r,r*2,r*2);cx.restore();
+ cx.strokeStyle=`rgba(233,234,237,${.2+g*.3})`;cx.lineWidth=1.2;cx.beginPath();cx.arc(x,y,r,Math.PI*1.05,Math.PI*1.75);cx.stroke();
+}
+function drawStation(x,y,rot,u){
+ cx.save();cx.translate(x,y);cx.rotate(rot);cx.scale(u,u);
+ const metal=(x0,x1)=>{const l=cx.createLinearGradient(x0,0,x1,0);l.addColorStop(0,'#d9dbe0');l.addColorStop(.5,'#8e919a');l.addColorStop(1,'#3a3c43');return l};
+ /* солнечные панели */
+ [-1,1].forEach(sd=>{cx.save();cx.scale(sd,1);
+  cx.strokeStyle='#9a9da6';cx.lineWidth=1;cx.beginPath();cx.moveTo(6,0);cx.lineTo(13,0);cx.stroke();
+  const pg=cx.createLinearGradient(13,-9,31,9);pg.addColorStop(0,'#aeb2bd');pg.addColorStop(.5,'#5d616c');pg.addColorStop(1,'#272a31');
+  cx.fillStyle=pg;cx.fillRect(13,-9,18,18);cx.strokeStyle='rgba(0,0,0,.55)';cx.lineWidth=.7;cx.strokeRect(13,-9,18,18);
+  for(let i=1;i<3;i++){cx.beginPath();cx.moveTo(13+i*6,-9);cx.lineTo(13+i*6,9);cx.stroke()}
+  cx.beginPath();cx.moveTo(13,0);cx.lineTo(31,0);cx.stroke();cx.restore()});
+ /* корпус */
+ cx.fillStyle=metal(-6,6);cx.beginPath();cx.roundRect(-6,-15,12,30,3);cx.fill();
+ cx.strokeStyle='rgba(0,0,0,.5)';cx.lineWidth=.8;[-8,-2,5].forEach(yy=>{cx.beginPath();cx.moveTo(-6,yy);cx.lineTo(6,yy);cx.stroke()});
+ cx.fillStyle=metal(-4,4);cx.beginPath();cx.roundRect(-4,-19,8,5,2);cx.fill();
+ cx.fillStyle='#2b2d33';cx.beginPath();cx.roundRect(-4,15,8,4,2);cx.fill();
+ cx.fillStyle='#e9eaed';cx.fillRect(-2,-4,4,3);
+ /* антенны */
+ cx.strokeStyle='#c9ccd3';cx.lineWidth=1;cx.beginPath();cx.moveTo(-3,-19);cx.lineTo(-3,-27);cx.moveTo(3,-19);cx.lineTo(5,-25);cx.stroke();
+ cx.beginPath();cx.arc(-3,-28,2.2,0,7);cx.fillStyle='#e9eaed';cx.fill();
+ cx.beginPath();cx.moveTo(0,15);cx.lineTo(0,22);cx.stroke();
+ cx.restore();
+}
+function drawStage(p,trail){
+ if(!W)return;cx.clearRect(0,0,W,H);
+ const mx=W/2,my=H/2,R=Math.min(W,H)*.41,pr=R*.5,g=lvl;
+ cx.strokeStyle='rgba(146,149,158,.28)';cx.setLineDash([2,5]);cx.lineWidth=1;cx.beginPath();cx.arc(mx,my,R,0,7);cx.stroke();cx.setLineDash([]);
+ drawPlanet(mx,my,pr,g);
+ if(trail>.01){cx.strokeStyle=`rgba(233,234,237,${Math.min(.5,trail)})`;cx.lineWidth=2;cx.lineCap='round';cx.beginPath();cx.arc(mx,my,R,theta-Math.min(1.6,trail*3),theta);cx.stroke()}
+ const sx=mx+Math.cos(theta)*R,sy=my+Math.sin(theta)*R;
+ const rot0=theta+Math.PI/2; /* с самого начала нос станции смотрит на планету */
+ let rot=rot0;
+ if(aim&&pointK>0){ /* в конце разворачивается носом (стыковочным узлом) на нужную точку планеты */
+  const ay=my+aim.d*pr,ax=mx+aim.side*Math.sqrt(Math.max(0,pr*pr-(aim.d*pr)**2));
+  const ux=ax-sx,uy=ay-sy,tr=Math.atan2(-ux,uy);
+  const dl=((tr-rot0+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;
+  rot=rot0+dl*pointK}
+ drawStation(sx,sy,rot,.9);
+}
+window.addEventListener('resize',()=>{fit();if(!busy)drawStage(chance(),0)});
+function renderCollection(){
+ const n=Math.min(S.col.length,NEED);
+ $('cprog').textContent=S.col.length+' / '+NEED;
+ $('cbar').innerHTML=Array.from({length:NEED},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('');
+ const b=$('cclaim');b.disabled=S.claimed||S.col.length<NEED;
+ b.textContent=S.claimed?'Бонус получен ✓':'Собери 6 разных подарков → +★ 500 (тест)';
+}
+function renderInv(){
+ $('invCount').textContent=S.inv.length;
+ $('inv').innerHTML=S.inv.length?S.inv.map(x=>tile(byId[x.id],x.u===srcU?'sel':'',`data-u="${x.u}"`,x.bd)).join(''):'<div class="empty-note">Пусто. Купи подарок в каталоге.</div>';
+ $('inv').querySelectorAll('.tile').forEach(b=>b.onclick=()=>{if(busy)return;srcU=Number(b.dataset.u);aim=null;pointK=0;renderAll();$('message').textContent='Исходный подарок выбран.'});
+}
+function renderCat(){
+ const list=G.filter(g=>(filter==='all'||g.kind===filter)&&g.name.toLowerCase().includes(q));
+ $('catCount').textContent=list.length+' / '+G.length;
+ $('cat').innerHTML=list.length?list.map(g=>tile(g,g.id===tgt?'sel':'',`data-id="${g.id}"`)).join(''):'<div class="empty-note">Ничего не найдено</div>';
+ $('cat').querySelectorAll('.tile').forEach(b=>b.onclick=()=>{if(busy)return;tgt=b.dataset.id;tgtBd=rndBd();aim=null;pointK=0;renderAll();$('message').textContent='Цель выбрана.'});
+ const d=$('detail');
+ if(tgt){const g=byId[tgt];d.hidden=false;d.innerHTML=`<div><b>${g.name}</b><span>Тираж ${g.supply.toLocaleString('ru-RU')} · ${fmt(g.value)}${g.demo?' · цена демо':''}</span></div><button class="buy" id="buy" ${S.bal<g.value?'disabled':''}>Купить ${fmt(g.value)}</button>`;
+  $('buy').onclick=buy}else d.hidden=true;
+}
+function renderTabs(){
+ const T=[['all','Все'],['a','до ★500'],['b','★500–2000'],['c','от ★2000']];
+ $('tabs').innerHTML=T.map(([k,l])=>`<button class="${filter===k?'on':''}" data-k="${k}">${l}</button>`).join('');
+ $('tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{filter=b.dataset.k;renderTabs();renderCat()});
+}
+function renderAll(){$('balance').textContent=fmt(S.bal);renderArena();renderCollection();renderInv();renderCat()}
+
+function buy(){
+ const g=byId[tgt];if(!g||S.bal<g.value)return;
+ S.bal-=g.value;S.inv.push({u:S.next++,id:g.id,src:'bought',bd:tgtBd||rndBd()}); /* покупка НЕ попадает в S.col */
+ save();renderAll();$('message').textContent='Куплено: '+g.name+'. В коллекцию покупки не идут.';
+}
+$('cclaim').onclick=()=>{if(S.claimed||S.col.length<NEED)return;S.claimed=true;S.bal+=500;save();renderAll();$('message').textContent='Бонус коллекции: +★ 500 (тестовый баланс).'};
+
+function upgrade(){
+ if(busy)return;const s=srcItem();
+ if(!s||!tgt){$('message').textContent='Выбери исходный подарок и цель.';return}
+ if(s.id===tgt){$('message').textContent='Выбери другую цель.';return}
+ busy=true;const arena=$('arena');arena.classList.add('spinning');$('upgrade').disabled=true;
+ $('status').textContent='● PROCESSING';$('buttonText').textContent='UPGRADING…';$('message').textContent='Система рассчитывает результат…';
+ const p=chance(),ok=Math.random()*100<p; /* результат решается по шансу, независимо от анимации */
+ const D=matchMedia('(prefers-reduced-motion: reduce)').matches?400:5800,TURNS=3,TWO=Math.PI*2,t0=performance.now();
+ const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2; /* разгон, затем торможение */
+ /* Точка остановки: победа — справа на высоте световой энергии; неудача — слева, на высоте тёмной (пустой) части, т.е. «прокрутился дальше» */
+ aim=null;
+ const Rr=Math.min(W,H)*.41,pr=Rr*.5,lit=p/100;
+ const d=ok?(1-lit):(-lit); /* середина светлой зоны / тёмной зоны, в долях радиуса планеты, вниз положительно */
+ const dy=Math.max(-.98,Math.min(.98,d))*pr;
+ const target=ok?Math.asin(dy/Rr):Math.PI-Math.asin(dy/Rr);
+ const th0=theta,total=TURNS*TWO+((target-th0)%TWO+TWO)%TWO;
+ aim={ok,d:dy/pr,side:ok?1:-1};pointK=0;
+ const frame=now=>{
+  const t=Math.min(1,(now-t0)/D);theta=th0+total*ease(t);
+  const sp=(ease(Math.min(1,t+.01))-ease(Math.max(0,t-.01)))*total*8; /* для шлейфа */
+  const k=Math.max(0,Math.min(1,(t-.82)/.18));pointK=k*k*(3-2*k);
+  drawStage(p,sp*.12);
+  if(t<1){requestAnimationFrame(frame);return}
+  theta=target;pointK=1;finish()};
+ requestAnimationFrame(frame);
+ const finish=()=>{{arena.classList.remove('spinning');busy=false;$('buttonText').textContent='START UPGRADE';
+   const from=byId[s.id],to=byId[tgt];
+   S.inv=S.inv.filter(x=>x.u!==s.u);srcU=null;
+   if(ok){S.inv.push({u:S.next++,id:tgt,src:'upgrade',bd:tgtBd||rndBd()});if(!inCol(tgt))S.col.push(tgt)}
+   save();renderAll();
+   $('status').textContent=ok?'✦ SUCCESS':'● FAILED';
+   $('message').textContent=ok?`✦ Успех! ${from.name} → ${to.name} (тест).`:`Неудача: ${from.name} сгорел (тест).`;
+   if(ok)$('targetArt').classList.add('result');
+   $('chance').textContent=p.toFixed(1)+'%';$('fill').style.width=p+'%';
+   if(ok){flash=1;const fl=()=>{flash=Math.max(0,flash-.025);drawStage(p,0);if(flash>0)requestAnimationFrame(fl)};fl()}
+  }};
+}
+$('upgrade').onclick=upgrade;
+$('search').oninput=e=>{q=e.target.value.trim().toLowerCase();renderCat()};
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&!['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)){e.preventDefault();upgrade()}});
+renderTabs();fit();renderAll();
+})();
 </script></body></html>
