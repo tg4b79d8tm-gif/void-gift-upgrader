@@ -37,12 +37,24 @@ h1{font-size:34px;letter-spacing:-.055em;line-height:1.05;margin:0;font-weight:7
 .key{border:1px solid #8a8c93;border-bottom-width:3px;border-radius:5px;padding:5px 8px;font-size:11px}
 .message{min-height:22px;margin-top:12px;text-align:center;color:#a0a3ab;font-size:12px;line-height:1.5}
 .sectitle{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;letter-spacing:.13em;margin:26px 0 11px}
-.collection{border:1px solid var(--line);border-radius:16px;padding:14px;background:#0e0f12;margin-top:16px}
-.cbar{display:flex;gap:5px;margin:10px 0}
-.cbar i{flex:1;height:6px;border-radius:4px;background:#2a2c31}
-.cbar i.on{background:var(--greenline)}
-.cbtn{width:100%;border:1px solid var(--greenline);background:transparent;color:#bdf0d4;border-radius:10px;padding:10px;font-weight:700;cursor:pointer}
+.tier{border:1px solid var(--line);border-radius:16px;padding:14px;background:#0e0f12;margin-top:12px;--tc:#2f9e68;--tc2:#bdf0d4}
+.tier.done{border-color:var(--tc)}
+.thead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.tname{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px;letter-spacing:-.01em}
+.tdot{width:14px;height:14px;border-radius:50%;background:var(--tdot,var(--tc));border:1px solid #ffffff33;flex:none}
+.tprog{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ttrack{height:6px;background:#2a2c31;border-radius:4px;overflow:hidden;margin:12px 0}
+.tfill{height:100%;background:var(--tfill,var(--tc));border-radius:4px;transition:width .3s}
+.trew{display:flex;justify-content:space-between;font-size:11px;color:#a0a3ab;margin-bottom:10px}
+.cbtn{width:100%;border:1px solid var(--tc);background:transparent;color:var(--tc2);border-radius:10px;padding:10px;font-weight:700;cursor:pointer;font:inherit;font-weight:700}
 .cbtn:disabled{opacity:.4;cursor:default}
+.cbtn.ready{background:var(--tc);color:#090a0d}
+.tier.t-blue{--tc:#3a86ff;--tc2:#b9d4ff}
+.tier.t-red{--tc:#e0304a;--tc2:#ffc3cb}
+.tier.t-gold{--tc:#e6c060;--tc2:#fbe9b0}
+.tier.t-mono{--tc:#d8dce4;--tc2:#e9eaed;--tfill:linear-gradient(90deg,#6b6f78,#f1f2f4);--tdot:linear-gradient(135deg,#fff,#555)}
+.tier.t-black{--tc:#5b5e66;--tc2:#c6c8cf;--tdot:#050506;background:linear-gradient(145deg,#111216,#050506)}
+.tier.t-black .cbtn.ready{background:#e9eaed}
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .tile{background:#101115;color:var(--text);border:1px solid #2d3036;border-radius:13px;padding:10px 4px 9px;cursor:pointer;min-width:0;text-align:center;font:inherit}
 .tile.sel{border-color:#d2d4da;box-shadow:0 0 0 1px #d2d4da}
@@ -122,10 +134,8 @@ h1{font-size:34px;letter-spacing:-.055em;line-height:1.05;margin:0;font-weight:7
 <div class="grid" id="cat"></div>
 </div>
 
-<div class="view" id="view-col" hidden><div class="kicker">COLLECTION</div><div class="vtitle">Collection</div><p class="sub">Собери 6 разных подарков и получи бонус.</p>
-<section class="collection"><div class="panelhead"><span>COLLECTION BONUS</span><span class="status" id="cprog">0 / 6</span></div><div class="cbar" id="cbar"></div>
-<button class="cbtn" id="cclaim" disabled>Собери 6 разных подарков → +★ 500 (тест)</button>
-<div class="message" style="min-height:0;margin-top:9px;font-size:11px">В коллекцию идут стартовые подарки и успешные апгрейды. Покупки не засчитываются.</div></section>
+<div class="view" id="view-col" hidden><div class="kicker">COLLECTION</div><div class="vtitle">Collection</div><p class="sub">Собирай разные подарки (стартовые и полученные апгрейдом) и забирай бонусы ★ и XP. Покупки не засчитываются.</p><div class="message" id="colMsg" aria-live="polite"></div>
+<div id="tiers"></div>
 <div class="sectitle"><span>COLLECTED GIFTS</span><span id="colCount">0</span></div><div class="grid" id="colGrid"></div></div>
 <div class="view" id="view-prof" hidden><div class="kicker">PROFILE</div><div class="vtitle">Profile</div>
 <section class="profile"><div class="ava" id="ava"></div><div class="pname" id="pname">Guest</div><div class="puser" id="puser"></div>
@@ -145,11 +155,19 @@ h1{font-size:34px;letter-spacing:-.055em;line-height:1.05;margin:0;font-weight:7
 const DATA=[["Snake_Box","Snake Box",181,400000,0],["Coconut_Drink","Coconut Drink",194,500000,0],["Torch","Torch",194,500000,0],["Cone_IceCream","Cone IceCream",194,500000,0],["Ice_Cream","Ice Cream",195,350000,0],["Candy_Cane","Candy Cane",195,600000,0],["Lunar_Snake","Lunar Snake",197,400000,0],["Pink_Flamingo","Pink Flamingo",198,250000,0],["Instant_Ramen","Instant Ramen",198,500000,0],["Xmas_Stocking","Xmas Stocking",198,600000,0],["Lol_Pop","Lol Pop",198,500000,0],["Big_Year","Big Year",199,200000,0],["Happy_Brownie","Happy Brownie",200,300000,0],["Whip_Cupcake","Whip Cupcake",202,400000,0],["Jester_Hat","Jester Hat",202,400000,0],["Tama_Gadget","Tama Gadget",204,200000,0],["Pet_Snake","Pet Snake",208,400000,0],["Easter_Egg","Easter Egg",209,180000,0],["Hypno_Lollipop","Hypno Lollipop",210,300000,0],["Spiced_Wine","Spiced Wine",214,400000,0],["Backpack","Backpack",216,200000,0],["Fresh_Socks","Fresh Socks",220,250000,0],["Book","Book",221,100000,0],["Homemade_Cake","Homemade Cake",223,500000,0],["Star_Notepad","Star Notepad",225,200000,0],["Holiday_Drink","Holiday Drink",225,200000,0],["Golden_Medal","Golden Medal",227,150000,0],["Ginger_Cookie","Ginger Cookie",234,300000,0],["Jack-in-the-Box","Jack-in-the-Box",235,100000,0],["B-Day_Candle","B-Day Candle",235,500000,0],["Party_Sparkler","Party Sparkler",242,400000,0],["Winter_Wreath","Winter Wreath",245,200000,0],["Pencil","Pencil",250,50000,1],["REDO","REDO",250,20000,1],["Clover_Pin","Clover Pin",250,300000,0],["Mousse_Cake","Mousse Cake",250,250000,0],["Heart_Pendant","Heart Pendant",250,80000,1],["Lamp_Candle","Lamp Candle",250,300000,1],["Restless_Jar","Restless Jar",253,150000,0],["Money_Pot","Money Pot",254,120000,0],["Stellar_Rocket","Stellar Rocket",255,180000,0],["Cookie_Heart","Cookie Heart",258,400000,0],["Statue","Statue",262,300000,0],["Swag_Bag","Swag Bag",264,240000,0],["Pretty_Posy","Pretty Posy",265,200000,0],["Snoop_Dogg","Snoop Dogg",275,600000,0],["Spring_Basket","Spring Basket",277,250000,0],["Faith_Amulet","Faith Amulet",290,200000,0],["Bow_Tie","Bow Tie",293,100000,0],["Hex_Pot","Hex Pot",298,120000,0],["Lush_Bouquet","Lush Bouquet",299,180000,0],["Desk_Calendar","Desk Calendar",300,500000,0],["Moon_Pendant","Moon Pendant",302,120000,0],["Spy_Agaric","Spy Agaric",306,100000,0],["Input_Key","Input Key",310,200000,0],["Light_Sword","Light Sword",317,150000,0],["Eternal_Candle","Eternal Candle",319,50000,0],["Snow_Globe","Snow Globe",324,120000,0],["Santa_Hat","Santa Hat",325,150000,0],["Surfboard","Surfboard",347,40000,0],["Cream_IceCream","Cream IceCream",350,250000,0],["Jolly_Chimp","Jolly Chimp",362,150000,0],["Joyful_Bundle","Joyful Bundle",397,150000,0],["Snow_Mittens","Snow Mittens",399,90000,0],["Jelly_Bunny","Jelly Bunny",405,200000,0],["Bunny_Muffin","Bunny Muffin",418,100000,0],["Evil_Eye","Evil Eye",419,120000,0],["Sand_Castle","Sand Castle",435,150000,0],["Berry_Box","Berry Box",438,100000,0],["Witch_Hat","Witch Hat",443,100000,0],["Easter_Cake","Easter Cake",494,500000,0],["Hanging_Star","Hanging Star",495,100000,0],["Top_Hat","Top Hat",500,40000,0],["Sleigh_Bell","Sleigh Bell",506,50000,0],["Jingle_Bells","Jingle Bells",522,200000,0],["Sakura_Flower","Sakura Flower",535,100000,0],["Love_Candle","Love Candle",575,50000,0],["Valentine_Box","Valentine Box",595,50000,0],["Record_Player","Record Player",610,100000,0],["Skull_Flower","Skull Flower",622,30000,0],["Flying_Broom","Flying Broom",671,30000,0],["Crystal_Ball","Crystal Ball",685,30000,0],["Love_Potion","Love Potion",740,35000,0],["Snoop_Cigar","Snoop Cigar",746,120000,0],["Ionic_Dryer","Ionic Dryer",764,40000,0],["Bird_Mark","Bird Mark",778,250000,0],["UFC_Strike","UFC Strike",802,60000,0],["Trapped_Heart","Trapped Heart",840,30000,0],["Mad_Pumpkin","Mad Pumpkin",843,30000,0],["Sky_Stilettos","Sky Stilettos",888,70000,0],["Mask","Mask",929,250000,0],["Cupid_Charm","Cupid Charm",1117,40000,0],["Khabibs_Papakha","Khabib’s Papakha",1244,29000,0],["Eternal_Rose","Eternal Rose",1278,50000,0],["Bling_Binky","Bling Binky",1299,10000,0],["Eagle","Eagle",1427,15000,0],["Electric_Skull","Electric Skull",1495,10000,0],["Eight_Roses","Eight Roses",1500,150000,0],["1_May","1 May",1600,500000,0],["Diamond_Ring","Diamond Ring",1638,35000,0],["Case","Case",1700,25000,0],["Toy_Bear","Toy Bear",1717,60000,0],["Signet_Ring","Signet Ring",1784,30000,0],["Genie_Lamp","Genie Lamp",1850,15000,0],["Coffin","Coffin",1890,40000,0],["Vintage_Cigar","Vintage Cigar",1891,50000,0],["Neko_Helmet","Neko Helmet",1953,18000,0],["Voodoo_Doll","Voodoo Doll",1977,30000,0],["Red_Star","Red Star",2000,500000,0],["Bonded_Ring","Bonded Ring",2150,9000,0],["Sharp_Tongue","Sharp Tongue",2474,10000,0],["Kissed_Frog","Kissed Frog",2732,15000,0],["Swiss_Watch","Swiss Watch",2908,50000,0],["Magic_Potion","Magic Potion",3008,5000,0],["Low_Rider","Low Rider",3030,24000,0],["Gem_Signet","Gem Signet",3362,10000,0],["Ion_Gem","Ion Gem",3569,5000,0],["Artisan_Brick","Artisan Brick",3649,7000,0],["Mini_Oscar","Mini Oscar",3700,10000,0],["Perfume_Bottle","Perfume Bottle",4068,10000,0],["Trojan_Horse","Trojan Horse",4462,10000,0],["Grave","Grave",5156,10000,0],["Sneakers","Sneakers",5250,10000,0],["Westside_Sign","Westside Sign",5707,12000,0],["Nail_Bracelet","Nail Bracelet",5967,5000,0],["Mighty_Arm","Mighty Arm",5995,5000,0],["Astral_Shard","Astral Shard",6118,10000,0],["Loot_Bag","Loot Bag",6477,15000,0],["Durov_Glasses","Durov Glasses",6667,5000,0],["T-shirt","T-shirt",6990,10000,0],["Heroic_Helmet","Heroic Helmet",9290,8000,0],["Precious_Peach","Precious Peach",12970,5000,0],["Scared_Cat","Scared Cat",14100,20000,0],["Durovs_Cap","Durov’s Cap",20500,5000,0],["Heart_Locket","Heart Locket",61750,2000,0],["Durovs_Statuette","Durov's Statuette",150202,4100,0],["Plush_Pepe","Plush Pepe",316500,3000,0],["Telegram_Pin","Telegram Pin",417375,1000,0]];
 const G=DATA.map(([id,name,value,supply,demo])=>({id,name,value,supply,demo,kind:value<500?'a':value<2000?'b':'c'}));
 const byId=Object.fromEntries(G.map(g=>[g.id,g]));
-const KEY='void_state_v3',NEED=6;
+const KEY='void_state_v3';
+/* Уровни коллекции: нужно разных подарков, награда в ★ и XP (значения можно менять) */
+const TIERS=[
+ {id:'green',name:'Зелёная',cls:'',need:6,star:50,xp:50},
+ {id:'blue',name:'Синяя',cls:'t-blue',need:14,star:150,xp:120},
+ {id:'red',name:'Красная',cls:'t-red',need:24,star:400,xp:250},
+ {id:'gold',name:'Золотая',cls:'t-gold',need:36,star:1000,xp:500},
+ {id:'mono',name:'Монохромная',cls:'t-mono',need:50,star:2500,xp:1000},
+ {id:'black',name:'Чёрная',cls:'t-black',need:68,star:6000,xp:2000}];
 const START_IDS=['Snake_Box','Coconut_Drink','Torch'];
-const fresh=()=>({bal:1000,inv:START_IDS.map((id,i)=>({u:i+1,id,src:'start',bd:['Sapphire','Emerald','Persimmon'][i%3]})),col:START_IDS.slice(),claimed:false,next:START_IDS.length+1});
+const fresh=()=>({bal:1000,inv:START_IDS.map((id,i)=>({u:i+1,id,src:'start',bd:['Sapphire','Emerald','Persimmon'][i%3]})),col:START_IDS.slice(),cl:{},next:START_IDS.length+1});
 let S;try{S=JSON.parse(localStorage.getItem(KEY))||fresh()}catch(e){S=fresh()}
-S.xp=S.xp||0;S.ups=S.ups||0;S.wins=S.wins||0;
+if(!S.cl)S.cl={};if(S.claimed){S.cl.green=true}S.xp=S.xp||0;S.ups=S.ups||0;S.wins=S.wins||0;
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 let srcU=null,tgt=null,tgtBd=null,busy=false,filter='all',q='';
 const $=id=>document.getElementById(id);
@@ -270,12 +288,23 @@ function drawStage(p,trail){
 }
 window.addEventListener('resize',()=>{fit();if(!busy)drawStage(chance(),0)});
 function renderCollection(){
- const n=Math.min(S.col.length,NEED);
- $('cprog').textContent=S.col.length+' / '+NEED;
- $('cbar').innerHTML=Array.from({length:NEED},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('');
- const b=$('cclaim');b.disabled=S.claimed||S.col.length<NEED;
- b.textContent=S.claimed?'Бонус получен ✓':'Собери 6 разных подарков → +★ 500 (тест)';
+ const n=S.col.length;
+ $('tiers').innerHTML=TIERS.map(t=>{
+  const done=!!S.cl[t.id],ok=n>=t.need,pct=Math.min(100,n/t.need*100);
+  const label=done?'Бонус получен ✓':ok?`Забрать +★ ${t.star} · +${t.xp} XP`:`Нужно ещё ${t.need-n}`;
+  return `<section class="tier ${t.cls} ${done?'done':''}"><div class="thead"><span class="tname"><i class="tdot"></i>${t.name}</span><span class="tprog">${Math.min(n,t.need)} / ${t.need}</span></div>
+<div class="ttrack"><div class="tfill" style="width:${pct}%"></div></div>
+<div class="trew"><span>Собери ${t.need} разных подарков</span><span>★ ${t.star} · ${t.xp} XP</span></div>
+<button class="cbtn ${ok&&!done?'ready':''}" data-t="${t.id}" ${ok&&!done?'':'disabled'}>${label}</button></section>`}).join('');
+ $('tiers').querySelectorAll('.cbtn').forEach(b=>b.onclick=()=>claim(b.dataset.t));
 }
+function claim(id){
+ const t=TIERS.find(x=>x.id===id);if(!t||S.cl[id]||S.col.length<t.need)return;
+ const lv0=xpInfo(S.xp||0).level;S.cl[id]=true;S.bal+=t.star;S.xp=(S.xp||0)+t.xp;const lv1=xpInfo(S.xp).level;
+ save();renderAll();
+ $('colMsg').textContent=`Бонус «${t.name}»: +★ ${t.star} и +${t.xp} XP (тестовый баланс)`+(lv1>lv0?` · Уровень ${lv1}!`:'');
+}
+
 function renderInv(){
  $('invCount').textContent=S.inv.length;
  $('inv').innerHTML=S.inv.length?S.inv.map(x=>tile(byId[x.id],x.u===srcU?'sel':'',`data-u="${x.u}"`,x.bd)).join(''):'<div class="empty-note">Пусто. Купи подарок в каталоге.</div>';
@@ -331,7 +360,6 @@ function buy(){
  S.bal-=g.value;S.inv.push({u:S.next++,id:g.id,src:'bought',bd:tgtBd||rndBd()}); /* покупка НЕ попадает в S.col */
  save();renderAll();$('message').textContent='Куплено: '+g.name+'. В коллекцию покупки не идут.';
 }
-$('cclaim').onclick=()=>{if(S.claimed||S.col.length<NEED)return;S.claimed=true;S.bal+=500;save();renderAll();$('message').textContent='Бонус коллекции: +★ 500 (тестовый баланс).'};
 
 function upgrade(){
  if(busy)return;const s=srcItem();
@@ -340,16 +368,19 @@ function upgrade(){
  busy=true;const arena=$('arena');arena.classList.add('spinning');$('upgrade').disabled=true;
  $('status').textContent='● PROCESSING';$('buttonText').textContent='UPGRADING…';$('message').textContent='Система рассчитывает результат…';
  const p=chance(),ok=Math.random()*100<p; /* результат решается по шансу, независимо от анимации */
- const D=matchMedia('(prefers-reduced-motion: reduce)').matches?400:5800,TURNS=3,TWO=Math.PI*2,t0=performance.now();
+ const D=matchMedia('(prefers-reduced-motion: reduce)').matches?400:5400+Math.random()*1400,TURNS=3+Math.floor(Math.random()*2),TWO=Math.PI*2,t0=performance.now();
  const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2; /* разгон, затем торможение */
  /* Точка остановки: победа — справа на высоте световой энергии; неудача — слева, на высоте тёмной (пустой) части, т.е. «прокрутился дальше» */
  aim=null;
  const Rr=Math.min(W,H)*.41,pr=Rr*.5,lit=p/100;
- const d=ok?(1-lit):(-lit); /* середина светлой зоны / тёмной зоны, в долях радиуса планеты, вниз положительно */
+ /* случайная точка внутри нужной зоны: светлая (победа) или тёмная (поражение); сторона тоже случайная. d — в долях радиуса, вниз положительно */
+ const lo=ok?1-2*lit:-1,hi=ok?1:1-2*lit,mg=Math.min(.1,(hi-lo)*.3);
+ const d=lo+mg+Math.random()*Math.max(0,hi-lo-2*mg);
+ const side=Math.random()<.5?1:-1;
  const dy=Math.max(-.98,Math.min(.98,d))*pr;
- const target=ok?Math.asin(dy/Rr):Math.PI-Math.asin(dy/Rr);
+ const target=side>0?Math.asin(dy/Rr):Math.PI-Math.asin(dy/Rr);
  const th0=theta,total=TURNS*TWO+((target-th0)%TWO+TWO)%TWO;
- aim={ok,d:dy/pr,side:ok?1:-1};pointK=0;
+ aim={ok,d:dy/pr,side};pointK=0;
  const frame=now=>{
   const t=Math.min(1,(now-t0)/D);theta=th0+total*ease(t);
   const sp=(ease(Math.min(1,t+.01))-ease(Math.max(0,t-.01)))*total*8; /* для шлейфа */
